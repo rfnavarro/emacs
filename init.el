@@ -208,7 +208,7 @@ The DWIM behaviour of this command is as follows:
 
 ; Set up elpy for Python in Emacs
 (use-package elpy
-  :ensure ty
+  :ensure t
   :config
   (elpy-enable)
   ;; Enable elpy in a Python mode
