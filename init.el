@@ -224,3 +224,26 @@ The DWIM behaviour of this command is as follows:
   ;; Tell Python debugger (pdb) to use the current virtual environment
   ;; https://emacs.stackexchange.com/questions/17808/enable-python-pdb-on-emacs-with-virtualenv
   (setq gud-pdb-command-name "python -m pdb "))
+
+
+
+
+;; Magit setup
+
+(use-package delight
+ :ensure t)
+
+
+(use-package magit
+ :ensure t)
+
+(use-package git-gutter
+ :ensure t
+ :defer 0.3
+ :delight
+ :init (global-git-gutter-mode))
+
+(use-package git-timemachine
+ :ensure t
+ :defer 1
+:delight)
