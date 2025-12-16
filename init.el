@@ -274,7 +274,6 @@ The DWIM behaviour of this command is as follows:
   :ensure t)
 
 
-
 (use-package pdf-tools
   :ensure t
   :config
