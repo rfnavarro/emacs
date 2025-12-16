@@ -208,7 +208,7 @@ The DWIM behaviour of this command is as follows:
 
 ; Set up elpy for Python in Emacs
 (use-package elpy
-  :ensure t
+  :ensure ty
   :config
   (elpy-enable)
   ;; Enable elpy in a Python mode
@@ -224,63 +224,3 @@ The DWIM behaviour of this command is as follows:
   ;; Tell Python debugger (pdb) to use the current virtual environment
   ;; https://emacs.stackexchange.com/questions/17808/enable-python-pdb-on-emacs-with-virtualenv
   (setq gud-pdb-command-name "python -m pdb "))
-
-
-
-
-;; Magit setup
-
-(use-package delight
- :ensure t)
-
-
-(use-package magit
- :ensure t)
-
-(use-package git-gutter
- :ensure t
- :defer 0.3
- :delight
- :init (global-git-gutter-mode))
-
-(use-package git-timemachine
- :ensure t
- :defer 1
-:delight)
-
-
-
-(use-package conda
-  :ensure t
-  ;; pega la ruta que te dio 'conda info --base'
-  (setq conda-anaconda-home (expand-file-name "/opt/anaconda3")) 
-  
-  ;; Directorio donde viven tus entornos (envs)
-  (setq conda-env-home-directory (expand-file-name "~/anaconda3/envs"))
-  
-  :config
-  ;; Esto hace que los entornos funcionen también en la terminal interna de Emacs
-  (conda-env-initialize-interactive-shells)
-  (conda-env-initialize-eshell)
-  ;; Muestra el nombre del entorno en la barra de estado
-
-  (conda-env-autoactivate-mode t))
-
-
-;;Usar quarto
-(use-package quarto-mode
-  :mode (("\\.Rmd" . poly-quarto-mode))
-  :mode (("\\.qmd" . poly-quarto-mode))
-  :ensure t)
-
-
-
-(use-package pdf-tools
-  :ensure t
-  :config
-  ;; Inicializa el paquete
-  (pdf-tools-install)
-  ;; Opcional: abre los pdfs ajustados al ancho de la ventana
-  (setq-default pdf-view-display-size 'fit-width)
-  ;; Desactiva números de línea en pdfs (molestan)
-  (add-hook 'pdf-view-mode-hook (lambda () (display-line-numbers-mode -1))))
