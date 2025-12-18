@@ -251,23 +251,23 @@ The DWIM behaviour of this command is as follows:
 
 
 
-(use-package conda
-  :ensure t
-  :defer 1
-  :init
-  ;; Las rutas deben configurarse antes de cargar el paquete
-  (setq conda-anaconda-home (expand-file-name "/opt/anaconda3"))
-  (setq conda-env-home-directory (expand-file-name "/opt/anaconda3/envs"))
+;; (use-package conda
+;;   :ensure t
+;;   :defer 1
+;;   :init
+;;   ;; Las rutas deben configurarse antes de cargar el paquete
+;;   (setq conda-anaconda-home (expand-file-name "/opt/anaconda3"))
+;;   (setq conda-env-home-directory (expand-file-name "/opt/anaconda3/envs"))
   
-  :config
-  ;; Esto inicializa conda en los shells de Emacs
-  (conda-env-initialize-interactive-shells)
-  (conda-env-initialize-eshell)
+;;   :config
+;;   ;; Esto inicializa conda en los shells de Emacs
+;;   (conda-env-initialize-interactive-shells)
+;;   (conda-env-initialize-eshell)
   
-  ;; Activa el modo de autoactivación si tienes archivos .anaconda o similares
-  (conda-env-autoactivate-mode t)
+;;   ;; Activa el modo de autoactivación si tienes archivos .anaconda o similares
+;;   (conda-env-autoactivate-mode t)
   
-  )
+;;   )
 
 
 ;;Usar quarto
@@ -290,27 +290,4 @@ The DWIM behaviour of this command is as follows:
 
 
 
-
-;;instalar visor de mermaid
-;; 1. Agrega la carpeta bin de tu ambiente al PATH de Emacs
-(setenv "PATH" (concat (getenv "PATH") ":/opt/anaconda3/envs/numpyro/bin"))
-(setq exec-path (append exec-path '("/opt/anaconda3/envs/numpyro/bin")))
-
-;; 2. Configura ob-mermaid (asegúrate que la ruta sea idéntica a la de arriba)
-(use-package ob-mermaid
-  :config
-  (setq ob-mermaid-cli-path "/opt/anaconda3/envs/numpyro/bin/mmdc")
-  
-;; Activar el lenguaje en Org-Babel
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((mermaid . t)))) ;; Agrega esto a tu lista existente
-
-
-;; instalar para visualizar terminal macOS en emacs
-;; ejecutar primero brew install CMake libtool
-(use-package vterm
-    :ensure t
-    :config
-    (setq vterm-shell "/bin/zsh")) ;; Forza el uso de zsh
 
