@@ -250,24 +250,24 @@ The DWIM behaviour of this command is as follows:
 :delight)
 
 
+(setq my:el-get-packages
+      '(company-mode
+        flycheck))
+(el-get-bundle elpa:jedi-core)
+(el-get-bundle company-jedi :depends (company-mode))
+(eval-after-load "company-jedi"
+    '(setq jedi:server-command (list "/opt/anaconda3/envs/numpyro/bin/python" jedi:server-script)))
+(require 'company-jedi)
+(el-get 'sync my:el-get-packages)
 
-;; (use-package conda
-;;   :ensure t
-;;   :defer 1
-;;   :init
-;;   ;; Las rutas deben configurarse antes de cargar el paquete
-;;   (setq conda-anaconda-home (expand-file-name "/opt/anaconda3"))
-;;   (setq conda-env-home-directory (expand-file-name "/opt/anaconda3/envs"))
-  
-;;   :config
-;;   ;; Esto inicializa conda en los shells de Emacs
-;;   (conda-env-initialize-interactive-shells)
-;;   (conda-env-initialize-eshell)
-  
-;;   ;; Activa el modo de autoactivación si tienes archivos .anaconda o similares
-;;   (conda-env-autoactivate-mode t)
-  
-;;   )
+(use-package conda
+  :ensure t)
+(require 'conda)
+
+(setq python-shell-interpreter "/opt/anaconda3/envs/numpyro/bin/python3")
+(setq python-shell-interpreter-args "-i") ; "-i" es para modo interactivo, obligatorio
+
+
 
 
 ;;Usar quarto
@@ -287,6 +287,7 @@ The DWIM behaviour of this command is as follows:
   (setq-default pdf-view-display-size 'fit-width)
   ;; Desactiva números de línea en pdfs (molestan)
   (add-hook 'pdf-view-mode-hook (lambda () (display-line-numbers-mode -1))))
+
 
 
 
