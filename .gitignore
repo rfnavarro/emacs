@@ -1,0 +1,26 @@
+# Extensiones compiladas
+*.elc
+
+# Paquetes y dependencias (se descargan solos al iniciar)
+elpa/
+elpy/
+el-get/
+straight/
+
+# Archivos de respaldo y temporales
+*~
+\#*\#
+.\#*
+auto-save-list/
+tramp
+/recentf
+/bookmarks
+/history
+
+# Archivos locales de Python/Elpy
+__pycache__/
+*.py[cod]
+rpc-venv/
+
+# Configuración personalizada de la UI (opcional)
+custom.el
