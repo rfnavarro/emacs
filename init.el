@@ -1,20 +1,47 @@
+;;; summary
+
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file :no-error-if-file-is-missing)
 
 ;;; Set up the package manager
-
 (require 'package)
 (package-initialize)
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 
+;;; Purcell shell-conda solution
+(use-package exec-path-from-shell
+  :ensure t
+  :if (memq window-system '(mac ns))
+  :config
+  (exec-path-from-shell-initialize))
+
+;; Emacs Versionx
 (when (< emacs-major-version 29)
   (unless (package-installed-p 'use-package)
     (unless package-archive-contents
       (package-refresh-contents))
     (package-install 'use-package)))
 
+
+;;; emadrid
+;; Bootstrap
+;; (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(eval-when-compile
+  (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory)))
+
+
+;;;emadrid
+;; Debug and Wanings
+(setq debug-on-error t)
+(defvar warning-minimum-level)
+(setq warning-minimum-level :error)
+
+
+
+
+;; creo que aqui se configura que no se cambie de buffer en automatico
 (add-to-list 'display-buffer-alist
              '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
                (display-buffer-no-window)
@@ -168,25 +195,7 @@ The DWIM behaviour of this command is as follows:
   (setq trashed-sort-key '("Date deleted" . t))
   (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
 
-
-
-
-;;R config
-;; Forma correcta para auto-instalar
-(use-package ess
-  :ensure t)
-
-(use-package company
-  :ensure t
-  :config
-  (add-hook 'after-init-hook 'global-company-mode))
-
-(setq company-selection-wrap-around t
-      company-tooltip-align-annotations t
-      company-idle-delay 0.45
-      company-minimum-prefix-length 3
-      company-tooltip-limit 10)
-
+;; configuraciones de protesislao
 ;; enable column numbers
 (setq column-number-mode t)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
@@ -203,90 +212,21 @@ The DWIM behaviour of this command is as follows:
 
 
 
+;; IDE
+(require 'r)
+(require 'elpy)
+(require 'quarto)
+
+;; Version Control
+(require 'magit)
 
 
-
-
-; Set up elpy for Python in Emacs
-(use-package elpy
-  :ensure t
-  :config
-  (elpy-enable)
-  ;; Enable elpy in a Python mode
-  (add-hook 'python-mode-hook 'elpy-mode)
-  (setq elpy-rpc-backend "jedi")
-  ;; Open the Python shell in a buffer after sending code to it
-  (add-hook 'inferior-python-mode-hook 'python-shell-switch-to-shell)
-  ;; Use IPython as the default shell, with a workaround to accommodate IPython 5
-  ;; https://emacs.stackexchange.com/questions/24453/weird-shell-output-when-using-ipython-5  (setq python-shell-interpreter "ipython")
-  (setq python-shell-interpreter-args "--simple-prompt -i")
-  ;; Enable pyvenv, which manages Python virtual environments
-  (pyvenv-mode 1)
-  ;; Tell Python debugger (pdb) to use the current virtual environment
-  ;; https://emacs.stackexchange.com/questions/17808/enable-python-pdb-on-emacs-with-virtualenv
-  (setq gud-pdb-command-name "python -m pdb "))
-
-
-
-
-;; Magit setup
-
-(use-package delight
- :ensure t)
-
-
-(use-package magit
- :ensure t)
-
-(use-package git-gutter
- :ensure t
- :defer 0.3
- :delight
- :init (global-git-gutter-mode))
-
-(use-package git-timemachine
- :ensure t
- :defer 1
-:delight)
-
-
-(setq my:el-get-packages
-      '(company-mode
-        flycheck))
-(el-get-bundle elpa:jedi-core)
-(el-get-bundle company-jedi :depends (company-mode))
-(eval-after-load "company-jedi"
-    '(setq jedi:server-command (list "/opt/anaconda3/envs/numpyro/bin/python" jedi:server-script)))
-(require 'company-jedi)
-(el-get 'sync my:el-get-packages)
-
-(use-package conda
-  :ensure t)
+;; Envs
 (require 'conda)
 
-(setq python-shell-interpreter "/opt/anaconda3/envs/numpyro/bin/python3")
-(setq python-shell-interpreter-args "-i") ; "-i" es para modo interactivo, obligatorio
+;; Visor
+(require 'pdf-vis)
 
-
-
-
-;;Usar quarto
-(use-package quarto-mode
-  :mode (("\\.Rmd" . poly-quarto-mode))
-  :mode (("\\.qmd" . poly-quarto-mode))
-  :ensure t)
-
-
-;; instalar visor de pdf
-(use-package pdf-tools
-  :ensure t
-  :config
-  ;; Inicializa el paquete
-  (pdf-tools-install)
-  ;; Opcional: abre los pdfs ajustados al ancho de la ventana
-  (setq-default pdf-view-display-size 'fit-width)
-  ;; Desactiva números de línea en pdfs (molestan)
-  (add-hook 'pdf-view-mode-hook (lambda () (display-line-numbers-mode -1))))
 
 
 

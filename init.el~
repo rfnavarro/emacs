@@ -1,3 +1,5 @@
+;;; summary
+
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file :no-error-if-file-is-missing)
 
@@ -7,6 +9,21 @@
 (package-initialize)
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+
+
+
+;;; --- INSERTAR AQUÍ ---
+(use-package exec-path-from-shell
+  :ensure t
+  :if (memq window-system '(mac ns))
+  :config
+  (exec-path-from-shell-initialize))
+;;; ---------------------
+
+
+
+
 
 (when (< emacs-major-version 29)
   (unless (package-installed-p 'use-package)
@@ -14,6 +31,7 @@
       (package-refresh-contents))
     (package-install 'use-package)))
 
+;; creo que aqui se configura que se cambie de buffer en automatico
 (add-to-list 'display-buffer-alist
              '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
                (display-buffer-no-window)
@@ -169,7 +187,7 @@ The DWIM behaviour of this command is as follows:
 
 
 
-
+;;
 ;;R config
 ;; Forma correcta para auto-instalar
 (use-package ess
@@ -186,6 +204,9 @@ The DWIM behaviour of this command is as follows:
       company-minimum-prefix-length 3
       company-tooltip-limit 10)
 
+
+
+;; configuraciones de protesislao
 ;; enable column numbers
 (setq column-number-mode t)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
@@ -203,24 +224,98 @@ The DWIM behaviour of this command is as follows:
 
 
 
-
-
-
-; Set up elpy for Python in Emacs
+;; trasladado a elpy.el
+;; elpy mode - autocompletado python
 (use-package elpy
-  :ensure ty
+  :ensure t
+  :init
+  (setq elpy-rpc-backend "rpc") ; Fuerza a Elpy a NO usar jedi
   :config
   (elpy-enable)
-  ;; Enable elpy in a Python mode
   (add-hook 'python-mode-hook 'elpy-mode)
-  (setq elpy-rpc-backend "jedi")
-  ;; Open the Python shell in a buffer after sending code to it
-  (add-hook 'inferior-python-mode-hook 'python-shell-switch-to-shell)
-  ;; Use IPython as the default shell, with a workaround to accommodate IPython 5
-  ;; https://emacs.stackexchange.com/questions/24453/weird-shell-output-when-using-ipython-5  (setq python-shell-interpreter "ipython")
+  (setq python-shell-interpreter "ipython")
   (setq python-shell-interpreter-args "--simple-prompt -i")
-  ;; Enable pyvenv, which manages Python virtual environments
   (pyvenv-mode 1)
-  ;; Tell Python debugger (pdb) to use the current virtual environment
-  ;; https://emacs.stackexchange.com/questions/17808/enable-python-pdb-on-emacs-with-virtualenv
   (setq gud-pdb-command-name "python -m pdb "))
+
+
+
+;; trasladado a magit.el
+;; Magit setup
+
+(use-package delight
+ :ensure t)
+
+
+(use-package magit
+ :ensure t)
+
+(use-package git-gutter
+ :ensure t
+ :defer 0.3
+ :delight
+ :init (global-git-gutter-mode))
+
+(use-package git-timemachine
+ :ensure t
+ :defer 1
+:delight)
+
+
+;;; trasladado a conda.el
+(use-package conda
+  :ensure t
+  :config
+  ;; 1. Dile dónde está Anaconda (ajusta si es necesario)
+  (setq conda-anaconda-home "/opt/anaconda3")
+  
+  ;; 2. ESTA ES LA CLAVE: Integra conda con el shell de python
+  (conda-env-autoactivate-mode 1)  
+  ;; 3. Opcional: Que el shell de python use siempre el entorno activo
+  (setq conda-env-autoactivate-mode t))
+
+
+
+;;; trasladado a quarto.el
+;;Usar quarto
+(use-package quarto-mode
+  :ensure t
+  :mode (("\\.Rmd" . poly-quarto-mode)
+         ("\\.qmd" . poly-quarto-mode))
+  :config
+  (setq quarto-render-kasten t)) ; Ayuda con la integración de bloques
+(setq markdown-enable-math t) ; Activa el resaltado de fórmulas $...$
+(add-hook 'markdown-mode-hook
+  (lambda ()
+    (font-lock-add-keywords nil
+      '(("\\\\[a-zA-Z]+" . font-lock-keyword-face)))))
+
+;;;(set-keymap-parent quarto-mode-map markdown-mode-map))
+
+(add-to-list 'display-buffer-alist
+             '("\\*quarto-preview\\*"
+               (display-buffer-no-window)
+               (allow-no-window . t)))
+(with-eval-after-load 'poly-quarto-mode
+  (define-key poly-quarto-mode-map (kbd "C-c C-p") 'quarto-preview))
+
+
+
+
+
+;;trasladado a pdf-vis.el
+;; instalar visor de pdf
+(use-package pdf-tools
+  :ensure t
+  :config
+  ;; Inicializa el paquete
+  (pdf-tools-install)
+  ;; Opcional: abre los pdfs ajustados al ancho de la ventana
+  (setq-default pdf-view-display-size 'fit-width)
+  ;; Desactiva números de línea en pdfs (molestan)
+  (add-hook 'pdf-view-mode-hook (lambda () (display-line-numbers-mode -1))))
+
+
+
+
+
