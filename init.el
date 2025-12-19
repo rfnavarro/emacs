@@ -213,19 +213,19 @@ The DWIM behaviour of this command is as follows:
 
 
 ;; IDE
-(require 'r)
-(require 'elpy)
-(require 'quarto)
+(require 'init-r)
+(require 'init-elpy)
+(require 'init-quarto)
 
 ;; Version Control
-(require 'magit)
+(require 'init-magit)
 
 
 ;; Envs
-(require 'conda)
+(require 'init-conda)
 
 ;; Visor
-(require 'pdf-vis)
+(require 'init-pdf)
 
 
 
