@@ -25,7 +25,7 @@
 
 (let ((mono-spaced-font "Monospace")
       (proportionately-spaced-font "Sans"))
-  (set-face-attribute 'default nil :family mono-spaced-font :height 200)
+  (set-face-attribute 'default nil :family mono-spaced-font :height 150)
   (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
   (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
 
