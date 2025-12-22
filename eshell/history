@@ -1,0 +1,15 @@
+ls
+conda-env-activate base
+conda
+which python
+ls
+conda
+conda
+conda
+conda activate numpyro
+conda init
+conda
+conda activate numpyro
+conda activate
+conda init
+conda activate numpyro
