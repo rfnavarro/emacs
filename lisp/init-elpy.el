@@ -12,4 +12,12 @@
   (pyvenv-mode 1)
   (setq gud-pdb-command-name "python -m pdb "))
 
+
+(defun tws-insert-r-chunk (header) 
+  "Insert an r-chunk in markdown mode. Necessary due to interactions between polymode and yas snippet" 
+  (interactive "sHeader: ") 
+  (insert (concat "```{r " header "}\n\n```")) 
+  (forward-line -1))
+
 (provide 'init-elpy)
+
