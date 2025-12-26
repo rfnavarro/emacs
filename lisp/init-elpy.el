@@ -29,6 +29,7 @@
 ;; Mover el cursor al final de la salida automáticamente
 (setq comint-move-point-for-output t)
 
+;;!!!!! require "requiere: pip install jedi service_factory flake8"
 
  (provide 'init-elpy)
 
