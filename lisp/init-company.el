@@ -15,4 +15,14 @@
         company-tooltip-limit 10
         company-show-quick-access 'left)) ;; <--- Aquí está lo de los números M-1
 
+;; (use-package company-quickhelp
+;;   :ensure t
+;;   :init
+;;   (company-quickhelp-mode 1))
+
+;; (with-eval-after-load 'company
+;;   (company-quickhelp-mode))
+;;parece que hace crash
+
+
 (provide 'init-company)

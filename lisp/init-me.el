@@ -1,3 +1,5 @@
+;; evitar parpadeo de cursor
+(blink-cursor-mode 0)
 
 ;; Autocompletar parentesis
 (use-package electric
@@ -36,7 +38,6 @@
               (list 'buffer-file-name
                     (propertized-buffer-identification "%12f")
                     (propertized-buffer-identification "%12b")))
-
 
 
 

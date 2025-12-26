@@ -13,11 +13,43 @@
   (setq gud-pdb-command-name "python -m pdb "))
 
 
-(defun tws-insert-r-chunk (header) 
-  "Insert an r-chunk in markdown mode. Necessary due to interactions between polymode and yas snippet" 
-  (interactive "sHeader: ") 
-  (insert (concat "```{r " header "}\n\n```")) 
-  (forward-line -1))
+;; Configuración para Python
+(add-hook 'python-mode-hook
+          (lambda ()
+            (hs-minor-mode 1)
+            (outline-minor-mode 1)
+            (setq-local outline-regexp "# ---")))
 
-(provide 'init-elpy)
+
+;; ;; Ignora líneas largas (E501) y falta de líneas en blanco (E302)
+;; (setq elpy-flake8-options '("--ignore=E501"))
+
+
+;; ;; --- Elpy ---
+;; (use-package elpy
+;;   :ensure t
+;;   :init
+;;  (setq python-shell-interpreter "ipython"
+;;       python-shell-interpreter-args "-i --no-banner")
+;; ;;        python-shell-interpreter-args "--simple-prompt -i --no-banner")
+;;   :config
+;;   (elpy-enable)
+
+;;   ;; Debugger
+;;   (setq gud-pdb-command-name "python -m pdb "))
+
+;; (add-hook 'python-mode-hook
+;;           (lambda ()
+;;             (hs-minor-mode 1)
+;;             (outline-minor-mode 1)
+;;             (setq-local outline-regexp "# ---")))
+
+
+;; (use-package pyvenv
+;;   :ensure t
+;;   :config
+;;   (pyvenv-mode 1))
+
+
+ (provide 'init-elpy)
 

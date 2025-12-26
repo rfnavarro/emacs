@@ -39,7 +39,8 @@
 ;; (defvar warning-minimum-level)
 ;; (setq warning-minimum-level :error)
 
-
+;;Autodesplazar terminal hacia abajo
+(setq comint-move-point-for-output t)
 
 
 ;; creo que aqui se configura que no se cambie de buffer en automatico
@@ -58,6 +59,7 @@
 (require 'init-elpy)
 (require 'init-quarto)
 (require 'init-yaml)
+(require 'init-stan)
 
 ;; Version Control
 (require 'init-magit)
