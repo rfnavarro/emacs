@@ -66,6 +66,7 @@
 
 ;; Menu desplegable de ayuda con C-c
 (use-package which-key
+  :ensure t
   :init (which-key-mode)
   :diminish which-key-mode
   :config
