@@ -35,9 +35,9 @@
 
 ;; ;;;emadrid
 ;; ;; Debug and Wanings
-;; (setq debug-on-error t)
-;; (defvar warning-minimum-level)
-;; (setq warning-minimum-level :error)
+(setq debug-on-error t)
+(defvar warning-minimum-level)
+(setq warning-minimum-level :error)
 
 ;;Autodesplazar terminal hacia abajo
 (setq comint-move-point-for-output t)
@@ -56,19 +56,28 @@
 
 ;; IDE
 (require 'init-r)
-(require 'init-elpy)
+;(require 'init-elpy)
 (require 'init-quarto)
 (require 'init-yaml)
 (require 'init-stan)
+;(require 'init-python)
 
-;; Version Control
+;; ;; Development
+;(require 'init-lsp)
+
+(require 'init-company)
+
+
+;; ;; Version Control
 (require 'init-magit)
+(require 'init-projectile)
 
-;;me
+;; ;;me
 (require 'init-me)
 
-;; Envs
+;; ;; Envs
 (require 'init-conda)
+(require 'init-vterm)
 
 ;; Visor
 (require 'init-pdf)
