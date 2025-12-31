@@ -66,7 +66,6 @@
 
 ;; Menu desplegable de ayuda con C-c
 (use-package which-key
-  :ensure t
   :init (which-key-mode)
   :diminish which-key-mode
   :config
@@ -99,7 +98,7 @@
 (use-package ef-themes
   :ensure t
   :config
-  (load-theme 'ef-night))
+  (load-theme 'ef-eagle))
 
 
 (menu-bar-mode -1)

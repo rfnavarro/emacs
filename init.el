@@ -6,10 +6,44 @@
 
 ;;; Set up the package manager
 (require 'package)
-(package-initialize)
 
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+
+;;; Purcell shell-conda solution
+(use-package exec-path-from-shell
+  :ensure t
+  :if (memq window-system '(mac ns))
+  :config
+  (exec-path-from-shell-initialize))
+
+;Emacs Version
+(when (< emacs-major-version 29)
+  (unless (package-installed-p 'use-package)
+    (unless package-archive-contents
+      (package-refresh-contents))
+    (package-install 'use-package)))
+
+
+;; Adjust garbage collection threshold for early startup (see use of gcmh below)
+(setq gc-cons-threshold (* 128 1024 1024))
+
+
+;; Process performance tuning
+
+(setq read-process-output-max (* 4 1024 1024))
+(setq process-adaptive-read-buffering nil)
+
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(load custom-file :no-error-if-file-is-missing)
+
+(eval-when-compile
+  (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory)))
+
+
+;;; Set up the package manager
+(require 'init-utils) ;purcel
+(require 'init-site-lisp) ;; Must come before elpa, as it may provide package.el purcel
+(require 'init-elpa) ;purcel
+(require 'init-windows)
 
 ;;; Purcell shell-conda solution
 (use-package exec-path-from-shell
@@ -26,18 +60,11 @@
     (package-install 'use-package)))
 
 
-;;; emadrid
-;; Bootstrap
-;; (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(eval-when-compile
-  (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory)))
-
-
-;; ;;;emadrid
-;; ;; Debug and Wanings
-(setq debug-on-error t)
-(defvar warning-minimum-level)
-(setq warning-minimum-level :error)
+;; ;; ;;;emadrid
+;; ;; ;; Debug and Wanings
+;; (setq debug-on-error t)
+;; (defvar warning-minimum-level)
+;; (setq warning-minimum-level :error)
 
 ;;Autodesplazar terminal hacia abajo
 (setq comint-move-point-for-output t)
@@ -50,41 +77,51 @@
                (allow-no-window . t)))
 
 
+
 ;; Protesislaos config & other
 (require 'init-protesislaous)
 (require 'init-yasnippet)
 
+
+
+
+;; General performance tuning
+(when (require-package 'gcmh)
+  (setq gcmh-high-cons-threshold (* 128 1024 1024))
+  (add-hook 'after-init-hook (lambda ()
+                               (gcmh-mode)
+                               (diminish 'gcmh-mode))))
+
+(setq jit-lock-defer-time 0)
+;;; summary
+
+
+;; Load configs for specific features and modes
+(require-package 'diminish)
+
+
+
 ;; IDE
 (require 'init-r)
-;(require 'init-elpy)
 (require 'init-quarto)
 (require 'init-yaml)
 (require 'init-stan)
-;(require 'init-python)
 
-;; ;; Development
-;(require 'init-lsp)
-
+;; Development
 (require 'init-company)
+(require 'init-org)
 
-
-;; ;; Version Control
+;; Version Control
 (require 'init-magit)
 (require 'init-projectile)
 
-;; ;;me
+;;me
 (require 'init-me)
 
-;; ;; Envs
+;; Envs
 (require 'init-conda)
 (require 'init-vterm)
 
-;; Visor
+;;Visor
 (require 'init-pdf)
-
-
-
-
-
-
 
